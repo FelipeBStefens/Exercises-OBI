@@ -2,65 +2,55 @@ import java.util.Scanner;
 
 public class chuva {
     
-    public static void main(String[] args) throws Exception{
-        Scanner scannerLine = new Scanner(System.in);
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-        int n = scannerLine.nextInt();
-        if (n < 1 || n > 100000) {
+        int n = scanner.nextInt();
+        int m = scanner.nextInt();
 
-            scannerLine.close();
-            throw new Exception();
-        }
-
-        int s = scannerLine.nextInt();
-        if (s < 0 || s > 1000000) {
-
-            scannerLine.close();
-            throw new Exception();
-        }
-
-        scannerLine.nextLine();
-        int[] sequence = new int[n];
-
-        String line = scannerLine.nextLine();
-        Scanner scanner = new Scanner(line); 
+        char[][] matrix = new char[n][m];
         for (int i = 0; i < n; i++) {
+            matrix[i] = scanner.next().toCharArray();
+        }
 
-            sequence[i] = scanner.nextInt();
-            if (sequence[i] < 0 || sequence[i] > 10) {
+        for (int i = 0; i < n; i++) {
+            
+            if (i - 1 >= 0) {
+                for (int j = 0; j < m; j++) {
 
-                scanner.close();
-                scannerLine.close();
-                throw new Exception();
+                    if (matrix[i][j] == '.' && matrix[i - 1][j] == 'o') {
+                        matrix[i][j] = 'o';
+                    }
+                }
             }
+            if (i + 1 < n) {
+                for (int j = m - 1; j >= 0; j--) {
+                    if (j + 1 < m) {
+                        if (matrix[i][j] == '.' && matrix[i][j + 1] == 'o' && matrix[i + 1][j + 1] == '#') {
+                            matrix[i][j] = 'o';
+                        }
+                    }
+                }
+
+                for (int j = 0; j < m; j++) {
+                    if (j - 1 > 0) {
+                        if (matrix[i][j] == '.' && matrix[i][j - 1] == 'o' && matrix[i + 1][j - 1] == '#') {
+                            matrix[i][j] = 'o';
+                        }
+                    }
+                }
+            }
+            
         }
-        if (scanner.hasNext()) {
-         
-            scanner.close();
-            scannerLine.close();
-            throw new Exception();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+
+                System.out.print(matrix[i][j]);
+            }
+            System.out.println();
         }
+
         scanner.close();
-
-        int count = 0;
-        for (int i = 1; i <= sequence.length; i++) {
-            for (int j = 0; j <= sequence.length - i; j++) {
-                int[] array = new int[i]; 
-                for (int k = 0; k < i; k++) {
-                    array[k] = sequence[j + k];
-                }
-
-                int sum = 0;
-                for (int k = 0; k < array.length; k++) {
-                    sum += array[k];
-                }
-                if (sum == s) {
-                    count++;
-                }
-            }
-        }
-
-        System.out.println(count);
-        scannerLine.close();
     }
 }
