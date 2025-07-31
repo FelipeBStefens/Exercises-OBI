@@ -8,49 +8,45 @@ public class chuva {
         int n = scanner.nextInt();
         int m = scanner.nextInt();
 
-        char[][] matrix = new char[n][m];
+        char[][] rain = new char[n][m];
         for (int i = 0; i < n; i++) {
-            matrix[i] = scanner.next().toCharArray();
+            rain[i] = scanner.next().toCharArray();
         }
 
-        for (int i = 0; i < n; i++) {
-            
-            if (i - 1 >= 0) {
-                for (int j = 0; j < m; j++) {
-
-                    if (matrix[i][j] == '.' && matrix[i - 1][j] == 'o') {
-                        matrix[i][j] = 'o';
-                    }
-                }
+        int startIndex = 0;
+        for (int j = 0; j < m; j++) {
+            if (rain[0][j] == 'o') {
+                startIndex = j;
+                break;
             }
-            if (i + 1 < n) {
-                for (int j = m - 1; j >= 0; j--) {
-                    if (j + 1 < m) {
-                        if (matrix[i][j] == '.' && matrix[i][j + 1] == 'o' && matrix[i + 1][j + 1] == '#') {
-                            matrix[i][j] = 'o';
-                        }
-                    }
-                }
-
-                for (int j = 0; j < m; j++) {
-                    if (j - 1 > 0) {
-                        if (matrix[i][j] == '.' && matrix[i][j - 1] == 'o' && matrix[i + 1][j - 1] == '#') {
-                            matrix[i][j] = 'o';
-                        }
-                    }
-                }
-            }
-            
         }
 
+        rainWay(rain, 0, startIndex);
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-
-                System.out.print(matrix[i][j]);
+                System.out.print(rain[i][j]);
             }
             System.out.println();
         }
 
         scanner.close();
+    }
+
+    public static void rainWay(char[][] rain, int i, int j) {
+
+        rain[i][j] = 'o';
+        if (i == rain.length - 1) {
+            return;
+        }
+
+        if (rain[i + 1][j] == '.') {
+            rainWay(rain, i + 1, j);
+        }
+        if (j > 0 && rain[i][j - 1] == '.' && rain[i + 1][j] == '#') {
+            rainWay(rain, i, j - 1);
+        }
+        if (j < rain[0].length - 1 && rain[i][j + 1] == '.' && rain[i + 1][j] == '#') {
+            rainWay(rain, i, j + 1);
+        }
     }
 }
