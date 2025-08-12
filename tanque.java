@@ -4,7 +4,7 @@ public class tanque {
     
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
+        
         int c = scanner.nextInt();
         int d = scanner.nextInt();
         int t = scanner.nextInt();
